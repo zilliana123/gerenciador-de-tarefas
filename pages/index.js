@@ -1,13 +1,30 @@
-import * as React from "react";
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
+import TaskModal from "./taskModal";
+
 function TaskList() {
+  const [open, setOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const handleOpen = (task) => {
+    setSelectedTask(task);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setSelectedTask(null);
+    setOpen(false);
+  };
+
   return (
-    <div
+    <Box
       style={{
         display: "flex",
         justifyContent: "center",
@@ -20,16 +37,20 @@ function TaskList() {
             key={value}
             disableGutters
             secondaryAction={
-              <IconButton aria-label="Edit">
-                <EditIcon />
-              </IconButton>
+              <Button onClick={() => handleOpen(value)}>
+                <IconButton aria-label="Edit">
+                  <EditIcon />
+                </IconButton>
+              </Button>
             }
           >
             <ListItemText primary={`Tarefa ${value}`} />
           </ListItem>
         ))}
       </List>
-    </div>
+
+      <TaskModal open={open} handleClose={handleClose} task={selectedTask} />
+    </Box>
   );
 }
 
