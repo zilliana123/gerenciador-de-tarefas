@@ -13,8 +13,8 @@ function TaskList() {
   const [tasks, setTasks] = useState([
     { id: 1, title: "Tarefa 1", status: "pendente" },
     { id: 2, title: "Tarefa 2", status: "concluída" },
-    { id: 3, title: "Tarefa 3", status: "pendente" },
-    { id: 4, title: "Tarefa 4", status: "concluída" },
+    { id: 3, title: "Tarefa 3", status: "em progresso" },
+    { id: 4, title: "Tarefa 4", status: "pendente" },
   ]);
 
   const handleOpen = (task) => {
@@ -29,14 +29,25 @@ function TaskList() {
 
   const toggleStatus = (taskId) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId
-          ? {
-              ...task,
-              status: task.status === "pendente" ? "concluída" : "pendente",
-            }
-          : task
-      )
+      prevTasks.map((task) => {
+        if (task.id !== taskId) return task;
+
+        // Alterna entre: pendente → em progresso → concluída → pendente
+        let nextStatus;
+        switch (task.status) {
+          case "pendente":
+            nextStatus = "em progresso";
+            break;
+          case "em progresso":
+            nextStatus = "concluída";
+            break;
+          case "concluída":
+          default:
+            nextStatus = "pendente";
+        }
+
+        return { ...task, status: nextStatus };
+      })
     );
   };
 
@@ -53,6 +64,7 @@ function TaskList() {
       <Typography variant="h5" component="h1" gutterBottom>
         Gerenciador de Tarefas
       </Typography>
+
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {tasks.map((task) => (
           <TaskItem
