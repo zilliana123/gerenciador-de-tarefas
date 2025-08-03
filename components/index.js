@@ -5,9 +5,9 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
 
-import StatusFilter from "../components/StatusFilter";
-import TaskItem from "../components/TaskItem";
-import TaskModal from "../components/TaskModal";
+import StatusFilter from "./StatusFilter";
+import TaskItem from "./TaskItem";
+import TaskModal from "./TaskModal";
 
 function TaskList() {
   const [open, setOpen] = useState(false);
@@ -20,17 +20,6 @@ function TaskList() {
     { id: 3, title: "Tarefa 3", status: "em progresso" },
     { id: 4, title: "Tarefa 4", status: "pendente" },
   ]);
-
-  const handleSave = (newTask) => {
-    setTasks((prev) => {
-      const exists = prev.find((t) => t.id === newTask.id);
-      if (exists) {
-        return prev.map((t) => (t.id === newTask.id ? newTask : t));
-      }
-      return [...prev, newTask]; // adiciona nova tarefa
-    });
-    handleClose();
-  };
 
   const handleOpen = (task) => {
     setSelectedTask(task);
@@ -92,21 +81,7 @@ function TaskList() {
           mt: 2,
         }}
       >
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() =>
-            handleOpen({
-              id: tasks.length + 1,
-              title: "",
-              status: "pendente",
-              content: "",
-            })
-          }
-        >
-          Nova tarefa
-        </Button>
-
+        <Button>Nova tarefa</Button>
         <FormControl fullWidth sx={{ maxWidth: 150 }}>
           <StatusFilter value={statusFilter} onChange={setStatusFilter} />
         </FormControl>
@@ -128,7 +103,6 @@ function TaskList() {
         handleClose={handleClose}
         task={selectedTask}
         handleDelete={handleDelete}
-        handleSave={handleSave}
       />
     </Box>
   );
