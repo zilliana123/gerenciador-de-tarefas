@@ -37,11 +37,9 @@ function TaskList() {
             key={value}
             disableGutters
             secondaryAction={
-              <Button onClick={() => handleOpen(value)}>
-                <IconButton aria-label="Edit">
-                  <EditIcon />
-                </IconButton>
-              </Button>
+              <IconButton onClick={() => handleOpen(value)} aria-label="Edit">
+                <EditIcon />
+              </IconButton>
             }
           >
             <ListItemText primary={`Tarefa ${value}`} />
