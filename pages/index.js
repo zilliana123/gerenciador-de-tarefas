@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
 
-import TaskModal from "./taskModal";
+import TaskItem from "./TaskItem";
+import TaskModal from "./TaskModal";
 
 function TaskList() {
   const [open, setOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+
+  const [tasks, setTasks] = useState([
+    { id: 1, title: "Tarefa 1", status: "pendente" },
+    { id: 2, title: "Tarefa 2", status: "concluída" },
+    { id: 3, title: "Tarefa 3", status: "pendente" },
+    { id: 4, title: "Tarefa 4", status: "concluída" },
+  ]);
 
   const handleOpen = (task) => {
     setSelectedTask(task);
@@ -23,6 +26,19 @@ function TaskList() {
     setOpen(false);
   };
 
+  const toggleStatus = (taskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              status: task.status === "pendente" ? "concluída" : "pendente",
+            }
+          : task
+      )
+    );
+  };
+
   return (
     <Box
       style={{
@@ -32,18 +48,13 @@ function TaskList() {
       }}
     >
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {[1, 2, 3, 4].map((value) => (
-          <ListItem
-            key={value}
-            disableGutters
-            secondaryAction={
-              <IconButton onClick={() => handleOpen(value)} aria-label="Edit">
-                <EditIcon />
-              </IconButton>
-            }
-          >
-            <ListItemText primary={`Tarefa ${value}`} />
-          </ListItem>
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onToggle={toggleStatus}
+            onEdit={handleOpen}
+          />
         ))}
       </List>
 
