@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
 
 import TaskItem from "./TaskItem";
 import TaskModal from "./TaskModal";
@@ -45,8 +46,13 @@ function TaskList() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
+        color: "#666",
       }}
     >
+      <Typography variant="h5" component="h1" gutterBottom>
+        Gerenciador de Tarefas
+      </Typography>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {tasks.map((task) => (
           <TaskItem
