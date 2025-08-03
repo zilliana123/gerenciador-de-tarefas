@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 
 import StatusFilter from "./StatusFilter";
 import TaskItem from "./TaskItem";
@@ -72,9 +72,20 @@ function TaskList() {
         Gerenciador de Tarefas
       </Typography>
 
-      <FormControl fullWidth sx={{ maxWidth: 360, mb: 2 }}>
-        <StatusFilter value={statusFilter} onChange={setStatusFilter} />
-      </FormControl>
+      <Box
+        sx={{
+          width: 360,
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          mt: 2,
+        }}
+      >
+        <Button>Nova tarefa</Button>
+        <FormControl fullWidth sx={{ maxWidth: 150 }}>
+          <StatusFilter value={statusFilter} onChange={setStatusFilter} />
+        </FormControl>
+      </Box>
 
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {filteredTasks.map((task) => (

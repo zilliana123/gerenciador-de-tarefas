@@ -6,12 +6,12 @@ import MenuItem from "@mui/material/MenuItem";
 
 function StatusFilter({ value, onChange }) {
   return (
-    <FormControl fullWidth sx={{ maxWidth: 360, mb: 2 }}>
-      <InputLabel id="status-filter-label">Filtrar por status</InputLabel>
+    <FormControl fullWidth sx={{ maxWidth: 360 }}>
+      <InputLabel id="status-filter-label">Filtrar</InputLabel>
       <Select
         labelId="status-filter-label"
         value={value}
-        label="Filtrar por status"
+        label="Filtrar"
         onChange={(e) => onChange(e.target.value)}
       >
         <MenuItem value="">Todos</MenuItem>
