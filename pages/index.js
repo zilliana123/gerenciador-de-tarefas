@@ -33,25 +33,25 @@ function TaskList() {
 
   const toggleStatus = (taskId) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id !== taskId) return task;
-
-        let nextStatus;
-        switch (task.status) {
-          case "pendente":
-            nextStatus = "em progresso";
-            break;
-          case "em progresso":
-            nextStatus = "concluída";
-            break;
-          case "concluída":
-          default:
-            nextStatus = "pendente";
-        }
-
-        return { ...task, status: nextStatus };
-      })
+      prevTasks.map((task) =>
+        task.id !== taskId
+          ? task
+          : {
+              ...task,
+              status:
+                task.status === "pendente"
+                  ? "em progresso"
+                  : task.status === "em progresso"
+                  ? "concluída"
+                  : "pendente",
+            }
+      )
     );
+  };
+
+  const handleDelete = (taskId) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    handleClose();
   };
 
   const filteredTasks = tasks.filter((task) =>
@@ -98,7 +98,12 @@ function TaskList() {
         ))}
       </List>
 
-      <TaskModal open={open} handleClose={handleClose} task={selectedTask} />
+      <TaskModal
+        open={open}
+        handleClose={handleClose}
+        task={selectedTask}
+        handleDelete={handleDelete}
+      />
     </Box>
   );
 }

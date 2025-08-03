@@ -9,7 +9,7 @@ const style = {
   width: 400,
 };
 
-function TaskModal({ open, handleClose, task }) {
+function TaskModal({ open, handleClose, task, handleDelete }) {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Tarefa {task?.id}</DialogTitle>
@@ -32,6 +32,13 @@ function TaskModal({ open, handleClose, task }) {
           variant="contained"
         >
           Salvar
+        </Button>
+        <Button
+          onClick={() => handleDelete(task?.id)}
+          variant="outlined"
+          color="error"
+        >
+          Excluir
         </Button>
       </DialogActions>
     </Dialog>
