@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 
+import StatusFilter from "./StatusFilter";
 import TaskItem from "./TaskItem";
 import TaskModal from "./TaskModal";
 
 function TaskList() {
   const [open, setOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("");
 
   const [tasks, setTasks] = useState([
     { id: 1, title: "Tarefa 1", status: "pendente" },
@@ -32,7 +36,6 @@ function TaskList() {
       prevTasks.map((task) => {
         if (task.id !== taskId) return task;
 
-        // Alterna entre: pendente → em progresso → concluída → pendente
         let nextStatus;
         switch (task.status) {
           case "pendente":
@@ -51,9 +54,13 @@ function TaskList() {
     );
   };
 
+  const filteredTasks = tasks.filter((task) =>
+    statusFilter ? task.status === statusFilter : true
+  );
+
   return (
     <Box
-      style={{
+      sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -65,8 +72,12 @@ function TaskList() {
         Gerenciador de Tarefas
       </Typography>
 
+      <FormControl fullWidth sx={{ maxWidth: 360, mb: 2 }}>
+        <StatusFilter value={statusFilter} onChange={setStatusFilter} />
+      </FormControl>
+
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
