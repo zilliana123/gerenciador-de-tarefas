@@ -10,10 +10,14 @@ import TaskItem from "../components/TaskItem";
 import TaskModal from "../components/TaskModal";
 
 function TaskList() {
+  // Controla se o modal está aberto
   const [open, setOpen] = useState(false);
+  // Guarda a tarefa selecionada para edição
   const [selectedTask, setSelectedTask] = useState(null);
+  // Filtro aplicado às tarefas com base no status
   const [statusFilter, setStatusFilter] = useState("");
 
+  // Lista inicial de tarefas
   const [tasks, setTasks] = useState([
     { id: 1, title: "Tarefa 1", status: "pendente" },
     { id: 2, title: "Tarefa 2", status: "concluída" },
@@ -21,27 +25,33 @@ function TaskList() {
     { id: 4, title: "Tarefa 4", status: "pendente" },
   ]);
 
+  // Salva nova tarefa ou atualiza uma existente
   const handleSave = (newTask) => {
     setTasks((prev) => {
       const exists = prev.find((t) => t.id === newTask.id);
       if (exists) {
+        // Atualiza tarefa existente
         return prev.map((t) => (t.id === newTask.id ? newTask : t));
       }
-      return [...prev, newTask]; // adiciona nova tarefa
+      // Adiciona nova tarefa
+      return [...prev, newTask];
     });
     handleClose();
   };
 
+  // Abre o modal da tarefa a ser editada
   const handleOpen = (task) => {
     setSelectedTask(task);
     setOpen(true);
   };
 
+  // Fecha o modal
   const handleClose = () => {
     setSelectedTask(null);
     setOpen(false);
   };
 
+  // Altera o status da tarefa
   const toggleStatus = (taskId) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
@@ -60,11 +70,13 @@ function TaskList() {
     );
   };
 
+  // Remove uma tarefa da lista
   const handleDelete = (taskId) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
     handleClose();
   };
 
+  // Aplica o filtro de status
   const filteredTasks = tasks.filter((task) =>
     statusFilter ? task.status === statusFilter : true
   );
@@ -82,7 +94,6 @@ function TaskList() {
       <Typography variant="h5" component="h1" gutterBottom>
         Gerenciador de Tarefas
       </Typography>
-
       <Box
         sx={{
           width: 360,
@@ -106,19 +117,17 @@ function TaskList() {
         >
           Nova tarefa
         </Button>
-
         <FormControl fullWidth sx={{ maxWidth: 150 }}>
           <StatusFilter value={statusFilter} onChange={setStatusFilter} />
         </FormControl>
       </Box>
-
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {filteredTasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
-            onToggle={toggleStatus}
-            onEdit={handleOpen}
+            onToggle={toggleStatus} // alterna status
+            onEdit={handleOpen} // abre o modal para edição
           />
         ))}
       </List>

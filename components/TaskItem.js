@@ -8,7 +8,7 @@ function TaskItem({ task, onToggle, onEdit }) {
     switch (task.status) {
       case "em progresso":
         return {
-          color: "orange", // destaque laranja
+          color: "orange",
         };
       case "concluída":
         return {
@@ -21,6 +21,7 @@ function TaskItem({ task, onToggle, onEdit }) {
     }
   };
 
+  // Função que decide qual ícone exibir com base no status atual
   const renderStatusIcon = () => {
     if (task.status === "concluída") {
       return <CheckCircleOutlineIcon sx={getIconStyle()} />;
